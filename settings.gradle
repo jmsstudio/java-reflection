@@ -1,0 +1,5 @@
+rootProject.name = 'java-reflection'
+include 'supply-api'
+include 'processor'
+include 'processor-playground'
+
