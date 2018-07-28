@@ -17,8 +17,8 @@ public class Main {
         try (Scanner s = new Scanner(System.in)) {
             String url = s.nextLine();
 
-            final Processor processor = new Processor();
-            while (!url.equals("exit")) {
+            final Processor processor = new Processor("br.com.jmsstudio.supply.controller");
+            while (!url.equals("exit") && url.trim().length() > 0) {
                 Object response = processor.execute(url);
 
                 System.out.println("Response: " + response);

@@ -14,21 +14,21 @@ public class ProductController {
 		productDao = new ProductDaoMock();
 	}
 	
-	public List<Product> lista() {
+	public List<Product> list() {
 		return productDao.list();
 	}
 	
-	public List<Product> filtra(String nome) {
+	public List<Product> filter(String name) {
 		return productDao.list().stream()
-							.filter(produto -> produto.getName().toLowerCase().startsWith(nome.toLowerCase()))
+							.filter(product -> product.getName().toLowerCase().startsWith(name.toLowerCase()))
 							.collect(Collectors.toList());
 	}
 	
-	public List<Product> filtra(String nome, String marca) {
+	public List<Product> filter(String name, String brand) {
 		return productDao.list().stream()
-							.filter(produto -> 
-								produto.getName().toLowerCase().startsWith(nome.toLowerCase())
-								&& produto.getBrand().equalsIgnoreCase(marca)
+							.filter(product ->
+								product.getName().toLowerCase().startsWith(name.toLowerCase())
+								&& product.getBrand().equalsIgnoreCase(brand)
 							)
 							.collect(Collectors.toList());
 	}
