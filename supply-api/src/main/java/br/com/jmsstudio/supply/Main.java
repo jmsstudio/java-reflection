@@ -15,6 +15,7 @@ public class Main {
          */
 
         try (Scanner s = new Scanner(System.in)) {
+            System.out.print("Type the url or type <enter> to exit: ");
             String url = s.nextLine();
 
             final Processor processor = new Processor("br.com.jmsstudio.supply.controller");
@@ -23,6 +24,7 @@ public class Main {
 
                 System.out.println("Response: " + response);
 
+                System.out.print("Type the url or type <enter> to exit: ");
                 url = s.nextLine();
             }
         }

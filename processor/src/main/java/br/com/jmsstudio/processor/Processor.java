@@ -1,42 +1,30 @@
 package br.com.jmsstudio.processor;
 
-import java.util.Arrays;
-import java.util.List;
+import br.com.jmsstudio.processor.protocol.Request;
+import br.com.jmsstudio.processor.reflection.ReflectionUtils;
 
 public class Processor {
 
     private String basePackage;
 
-    public Processor(String basePackage) {
-        this.basePackage = basePackage;
+    public Processor(final String basePackage) {
+        String packagePath = basePackage;
+        if (!basePackage.endsWith(".")) {
+            packagePath = basePackage + ".";
+        }
+        this.basePackage = packagePath;
     }
 
-    public Object execute(String url) {
-        final String CONTROLLER_SUFIX = "Controller";
+    public Object execute(final String url) {
+        final Request request = new Request(url);
+        final String controllerName = request.getControllerName();
+        final String methodName = request.getMethodName();
 
-        String urlToBeProcessed = url;
-        if (urlToBeProcessed.startsWith("/")) {
-            urlToBeProcessed = urlToBeProcessed.replaceFirst("/", "");
-        }
-
-        final List<String> urlParts = Arrays.asList(urlToBeProcessed.split("/"));
-
-        final String className = urlParts.stream().findFirst().map(String::toLowerCase).map(s -> {
-            final String firstLetter = String.valueOf(s.charAt(0));
-            return s.replaceFirst(firstLetter, firstLetter.toUpperCase());
-        }).get() + CONTROLLER_SUFIX;
-
-        Object instance = null;
-
-        try {
-            final Class<?> controllerClass = Class.forName(this.basePackage + "." + className);
-            instance = controllerClass.newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-
-
-        return instance;
+        return new ReflectionUtils()
+                .getClass(this.basePackage + controllerName)
+                .createInstance()
+                .getMethod(methodName)
+                .invoke();
     }
 
 }
