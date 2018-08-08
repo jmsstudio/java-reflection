@@ -7,15 +7,17 @@ public class QueryParamsBuilder {
 	private Map<String, Object> queryParams = new HashMap<>();
 
 	public QueryParamsBuilder withParams(String stringQueryParams) {
-		String[] stringParams = stringQueryParams.split("&");
-		
-		for (String stringParam : stringParams) {
-			String[] chaveEValor = stringParam.split("=");
-			
-			String key = chaveEValor[0];
-			Object value = chaveEValor[1];
-			
-			queryParams.put(key, value);
+		if (stringQueryParams != null && stringQueryParams.trim().length() > 0) {
+			String[] stringParams = stringQueryParams.split("&");
+
+			for (String stringParam : stringParams) {
+				String[] keyAndValue = stringParam.split("=");
+
+				String key = keyAndValue[0];
+				Object value = keyAndValue[1];
+
+				queryParams.put(key, value);
+			}
 		}
 		
 		return this;

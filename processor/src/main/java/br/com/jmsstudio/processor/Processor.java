@@ -3,6 +3,8 @@ package br.com.jmsstudio.processor;
 import br.com.jmsstudio.processor.protocol.Request;
 import br.com.jmsstudio.processor.reflection.ReflectionUtils;
 
+import java.util.Map;
+
 public class Processor {
 
     private String basePackage;
@@ -19,11 +21,12 @@ public class Processor {
         final Request request = new Request(url);
         final String controllerName = request.getControllerName();
         final String methodName = request.getMethodName();
+        final Map<String, Object> parameters = request.getParameters();
 
         return new ReflectionUtils()
                 .getClass(this.basePackage + controllerName)
                 .createInstance()
-                .getMethod(methodName)
+                .getMethod(methodName, parameters)
                 .invoke();
     }
 
