@@ -27,6 +27,10 @@ public class Processor {
                 .getClass(this.basePackage + controllerName)
                 .createInstance()
                 .getMethod(methodName, parameters)
+                .withExceptionHandling((method, exception) -> {
+                    System.out.println("Error when executing method " + method.getName() + " from class " + method.getDeclaringClass().getName());
+                    throw new RuntimeException("Exception: ", exception);
+                })
                 .invoke();
     }
 
