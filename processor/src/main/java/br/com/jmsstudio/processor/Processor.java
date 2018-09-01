@@ -1,5 +1,6 @@
 package br.com.jmsstudio.processor;
 
+import br.com.jmsstudio.processor.converter.XmlConverter;
 import br.com.jmsstudio.processor.protocol.Request;
 import br.com.jmsstudio.processor.reflection.ReflectionUtils;
 
@@ -23,7 +24,7 @@ public class Processor {
         final String methodName = request.getMethodName();
         final Map<String, Object> parameters = request.getParameters();
 
-        return new ReflectionUtils()
+        Object instance = new ReflectionUtils()
                 .getClass(this.basePackage + controllerName)
                 .createInstance()
                 .getMethod(methodName, parameters)
@@ -32,6 +33,10 @@ public class Processor {
                     throw new RuntimeException("Exception: ", exception);
                 })
                 .invoke();
+
+        instance = new XmlConverter().convert(instance);
+
+        return instance;
     }
 
 }
