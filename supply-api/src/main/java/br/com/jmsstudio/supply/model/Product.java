@@ -1,8 +1,14 @@
 package br.com.jmsstudio.supply.model;
 
+import br.com.jmsstudio.processor.converter.annotation.XmlTagName;
+
+@XmlTagName("product")
 public class Product {
+    @XmlTagName("name")
     private String name;
+    @XmlTagName("value")
     private double value;
+    @XmlTagName("productBrand")
     private String brand;
 
     public Product(String name, double value, String brand) {

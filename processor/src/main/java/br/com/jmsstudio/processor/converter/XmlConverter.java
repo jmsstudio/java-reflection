@@ -1,5 +1,7 @@
 package br.com.jmsstudio.processor.converter;
 
+import br.com.jmsstudio.processor.converter.annotation.XmlTagName;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
@@ -22,12 +24,18 @@ public class XmlConverter {
 
         } else {
 
-            tag = createTag(instanceClass.getName(),
+            final XmlTagName classAnnotation = instanceClass.getDeclaredAnnotation(XmlTagName.class);
+            final String classTagName = classAnnotation != null ? classAnnotation.value() : instanceClass.getName();
+
+            tag = createTag(classTagName,
                     Arrays.stream(fields).map(field -> {
                         field.setAccessible(true);
 
                         try {
-                            return createTag(field.getName(), String.valueOf(field.get(instance)));
+                            final XmlTagName fieldAnnotation = field.getDeclaredAnnotation(XmlTagName.class);
+                            final String fieldTagName = fieldAnnotation != null ? fieldAnnotation.value() : field.getName();
+
+                            return createTag(fieldTagName, String.valueOf(field.get(instance)));
                         } catch (IllegalAccessException e) {
                             e.printStackTrace();
                             throw new RuntimeException("Error on XML Conversion: ", e);
