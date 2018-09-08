@@ -1,6 +1,8 @@
 package br.com.jmsstudio.supply;
 
 import br.com.jmsstudio.processor.Processor;
+import br.com.jmsstudio.supply.dao.ProductDao;
+import br.com.jmsstudio.supply.dao.ProductDaoMock;
 
 import java.util.Scanner;
 
@@ -19,6 +21,8 @@ public class Main {
             String url = s.nextLine();
 
             final Processor processor = new Processor("br.com.jmsstudio.supply.controller");
+            processor.register(ProductDao.class, ProductDaoMock.class);
+
             while (!url.equals("exit") && url.trim().length() > 0) {
                 Object response = processor.execute(url);
 

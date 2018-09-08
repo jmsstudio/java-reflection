@@ -1,6 +1,6 @@
 package br.com.jmsstudio.supply.controller;
 
-import br.com.jmsstudio.supply.dao.ProductDaoMock;
+import br.com.jmsstudio.supply.dao.ProductDao;
 import br.com.jmsstudio.supply.model.Product;
 
 import java.util.List;
@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 
 public class ProductController {
 	
-	private ProductDaoMock productDao;
+	private ProductDao productDao;
 
-	public ProductController() {
-		productDao = new ProductDaoMock();
+	public ProductController(ProductDao productDao) {
+		this.productDao = productDao;
 	}
 	
 	public List<Product> list() {
